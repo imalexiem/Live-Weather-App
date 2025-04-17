@@ -1,5 +1,15 @@
 const apiKey = '052b1d2091d74ad943a3062c719b9e6a'; // Replace with your OpenWeatherMap API key
 
+const weatherIcons = {
+    'Clear': 'weather/clear.svg',
+    'Clouds': 'weather/clouds.svg',
+    'Rain': 'weather/rain.svg',
+    'Drizzle': 'weather/drizzle.svg',
+    'Thunderstorm': 'weather/thunderstorm.svg',
+    'Snow': 'weather/snow.svg',
+    'Mist': 'weather/atmosphere.svg',
+};
+
 async function getWeather() {
     const cityInput = document.getElementById('cityInput');
     const weatherInfo = document.getElementById('weatherInfo');
@@ -36,14 +46,22 @@ async function getWeather() {
         const data = await weatherResponse.json();
         console.log('Weather data:', data);
 
+        const weatherMain = data.weather[0].main;
+        const iconPath = weatherIcons[weatherMain] || 'weather/clouds.svg'; // Default to clouds if condition not found
+
         const html = `
-            <h2>${data.name}, ${data.sys.country}</h2>
-            <p class="temp">${Math.round(data.main.temp)}°C</p>
-            <p class="description">${data.weather[0].description}</p>
-            <p class="details">
-                Humidity: ${data.main.humidity}%<br>
-                Wind Speed: ${data.wind.speed} m/s
-            </p>
+            <div class="weather-display">
+                <h2>${data.name}, ${data.sys.country}</h2>
+                <div class="weather-icon">
+                    <img src="${iconPath}" alt="${weatherMain} weather">
+                </div>
+                <p class="temp">${Math.round(data.main.temp)}°C</p>
+                <p class="description">${data.weather[0].description}</p>
+                <p class="details">
+                    Humidity: ${data.main.humidity}%<br>
+                    Wind Speed: ${data.wind.speed} m/s
+                </p>
+            </div>
         `;
 
         weatherInfo.innerHTML = html;
