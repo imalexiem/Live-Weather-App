@@ -12,12 +12,20 @@
         <h1>Live Weather App</h1>
         <div class="search-box">
             <input type="text" placeholder="Enter city name" id="cityInput">
-            <button onclick="getWeather()">Search</button>
-        </div>
-        <div class="weather-info" id="weatherInfo">
-            <!-- Weather data will be displayed here -->
+            <div class="button-wrapper">
+                <button onclick="getWeather()">Search</button>
+            </div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Add the popup container -->
+    <div id="weatherPopup" class="popup">
+        <div class="popup-content">
+            <span class="close-button" onclick="closePopup()">&times;</span>
+            <div id="weatherInfo">
+                <!-- Weather data will be displayed here -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>

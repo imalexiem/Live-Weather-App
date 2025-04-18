@@ -13,9 +13,11 @@ const weatherIcons = {
 async function getWeather() {
     const cityInput = document.getElementById('cityInput');
     const weatherInfo = document.getElementById('weatherInfo');
+    const weatherPopup = document.getElementById('weatherPopup');
     const city = cityInput.value.trim();
 
-    // Add loading state
+    // Show loading in popup
+    weatherPopup.style.display = 'block';
     weatherInfo.innerHTML = '<p>Loading...</p>';
 
     try {
@@ -51,16 +53,29 @@ async function getWeather() {
 
         const html = `
             <div class="weather-display">
-                <h2>${data.name}, ${data.sys.country}</h2>
-                <div class="weather-icon">
-                    <img src="${iconPath}" alt="${weatherMain} weather">
+                <div class="weather-header">
+                    <h2>${data.name}, ${data.sys.country}</h2>
+                    <div class="weather-icon">
+                        <img src="${iconPath}" alt="${weatherMain} weather">
+                    </div>
                 </div>
-                <p class="temp">${Math.round(data.main.temp)}°C</p>
-                <p class="description">${data.weather[0].description}</p>
-                <p class="details">
-                    Humidity: ${data.main.humidity}%<br>
-                    Wind Speed: ${data.wind.speed} m/s
-                </p>
+                <div class="temperature">
+                    ${Math.round(data.main.temp)}°C
+                </div>
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <span class="label">weather</span>
+                        <span class="value">${data.weather[0].description}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">humidity</span>
+                        <span class="value">${data.main.humidity}%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">windspeed</span>
+                        <span class="value">${data.wind.speed} m/s</span>
+                    </div>
+                </div>
             </div>
         `;
 
@@ -71,5 +86,18 @@ async function getWeather() {
             stack: error.stack
         });
         weatherInfo.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+function closePopup() {
+    const weatherPopup = document.getElementById('weatherPopup');
+    weatherPopup.style.display = 'none';
+}
+
+// Close popup when clicking outside
+window.onclick = function(event) {
+    const weatherPopup = document.getElementById('weatherPopup');
+    if (event.target === weatherPopup) {
+        weatherPopup.style.display = 'none';
     }
 }
