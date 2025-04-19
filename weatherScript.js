@@ -13,11 +13,10 @@ const weatherIcons = {
 async function getWeather() {
     const cityInput = document.getElementById('cityInput');
     const weatherInfo = document.getElementById('weatherInfo');
-    const weatherPopup = document.getElementById('weatherPopup');
     const city = cityInput.value.trim();
 
-    // Show loading in popup
-    weatherPopup.style.display = 'block';
+    // Show loading
+    weatherInfo.style.display = 'block';
     weatherInfo.innerHTML = '<p>Loading...</p>';
 
     try {
@@ -86,18 +85,5 @@ async function getWeather() {
             stack: error.stack
         });
         weatherInfo.innerHTML = `<p>Error: ${error.message}</p>`;
-    }
-}
-
-function closePopup() {
-    const weatherPopup = document.getElementById('weatherPopup');
-    weatherPopup.style.display = 'none';
-}
-
-// Close popup when clicking outside
-window.onclick = function(event) {
-    const weatherPopup = document.getElementById('weatherPopup');
-    if (event.target === weatherPopup) {
-        weatherPopup.style.display = 'none';
     }
 }
